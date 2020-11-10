@@ -82,6 +82,7 @@ public class IntList {
 
     public static IntList dcatenate(IntList A, IntList B) {
         //TODO:  fill in method
+        if(A == null) return B;
         IntList head = A;
         while(head != null){
             if(head.rest == null){
@@ -99,42 +100,32 @@ public class IntList {
      */
     public static IntList catenate(IntList A, IntList B) {
         //TODO:  fill in method
-//        IntList temp = new IntList();
-//        IntList head = temp;
-//        IntList headA = A;
-//        while(headA.rest != null){
-//            head.first = headA.first;
-//            head.rest = headA.rest;
-//            head = head.rest;
-//            headA = headA.rest;
-//        }
-//        head.rest = B;
-//        IntList newHead = new IntList();
-////        IntList tail = newHead;
-////        IntList p = A;
-////
-////
-////        while(p != null){
-////            IntList node = new IntList(p.first, null);
-////            p = p.rest;
-////            tail.rest = node;
-////            tail = tail.rest;
-////        }
-////        tail.rest = B;
-////        return newHead.rest;
-        IntList newList = new IntList(A.first, null);
-        IntList temp1 = A;
-        IntList temp2 = newList;
-        while(temp1.rest != null)
-        {
-            temp1 = temp1.rest;
-            temp2.rest = new IntList(temp1.first, null);
-            temp2 = temp2.rest;
+        IntList newHead = new IntList();
+        IntList tail = newHead;
+        IntList p = A;
+
+
+        while(p != null){
+            IntList node = new IntList(p.first, null);
+            p = p.rest;
+            tail.rest = node;
+            tail = tail.rest;
         }
-
-        temp2.rest = B;
-
-        return newList;
+        tail.rest = B;
+        return newHead.rest;
+//        IntList newList = new IntList(A.first, null);
+//        IntList temp1 = A;
+//        IntList temp2 = newList;
+//        while(temp1.rest != null)
+//        {
+//            temp1 = temp1.rest;
+//            temp2.rest = new IntList(temp1.first, null);
+//            temp2 = temp2.rest;
+//        }
+//
+//        temp2.rest = B;
+//
+//        return newList;
     }
 
 
