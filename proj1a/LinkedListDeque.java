@@ -12,7 +12,7 @@ public class LinkedListDeque<T> {
             this.next = next;
             this.prev = prev;
         }
-        private ListNode(T item){
+        private ListNode(T item) {
             this.item = item;
         }
     }
@@ -29,7 +29,7 @@ public class LinkedListDeque<T> {
         if (isEmpty()) {
             sentinel.next = new ListNode(item, sentinel, sentinel);
             sentinel.prev = sentinel.next;
-        }else {
+        } else {
             sentinel.next = new ListNode(item, sentinel.next, sentinel);
             sentinel.next.next.prev = sentinel.next;
         }
@@ -40,7 +40,7 @@ public class LinkedListDeque<T> {
         if (isEmpty()) {
             sentinel.next = new ListNode(item, sentinel, sentinel);
             sentinel.prev = sentinel.next;
-        }else {
+        } else {
             sentinel.prev = new ListNode(item, sentinel, sentinel.prev);
             sentinel.prev.prev.next = sentinel.prev;
         }
@@ -60,12 +60,13 @@ public class LinkedListDeque<T> {
     /* which is i set temp != null as the judging statement */
     public void printDeque() {
         ListNode temp = sentinel;
-        while(temp.next != sentinel){
+        while (temp.next != sentinel) {
             temp = temp.next;
             System.out.print(temp.item + " ");
         }
         System.out.println();
     }
+
 
     public T removeFirst() {
         if (isEmpty()) {

@@ -22,7 +22,7 @@ public class ArrayDeque<T> {
         T[] a = (T[]) new Object[capacity];
         int tempLength = items.length - first;
         System.arraycopy(items, first, a, (a.length / 2) - 1, tempLength);
-        if(tempLength != items.length){
+        if (tempLength != items.length) {
             System.arraycopy(items, 0, a, ((a.length / 2) - 1) + tempLength, first);
         }
         items = a;
