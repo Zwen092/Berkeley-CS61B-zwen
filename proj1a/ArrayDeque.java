@@ -1,97 +1,186 @@
-import java.util.ArrayList;
-import java.util.LinkedList;
-
-/**
- * @author zwen
- * @Description
- * @create 2020-12-11 19:41
- */
 public class ArrayDeque<T> {
     private T[] items;
     private int size;
-    private int fisrtPosition;
-    private int lastPosition;
-    private int length;
-    private int refactor;
-    private int usageRatio;
+    private int nextFirst;
+    private int nextLast;
+    private int first;
+    private final int FINAL_LENGTH = 8;
 
-    public ArrayDeque(){
+    public ArrayDeque() {
         items = (T[]) new Object[8];
-        size = 0;
-        length = items.length;
+        //why?
+        nextFirst = (items.length - size) / 2;
+        nextLast = nextFirst + 1;
+        first = nextFirst;
     }
 
-    public void addFirst(T item){
-        //There's an resizing operation to be implement
-        resizeHelper(size, length);
-        fisrtPosition = (length - size) % length;
-        items[fisrtPosition] = item;
-        size++;
+    /**
+     *
+     * @param capacity
+     */
+    private void resize(int capacity) {
+        T[] a = (T[]) new Object[capacity];
+        int tempLength = items.length - first;
+        System.arraycopy(items, first, a, (a.length / 2) - 1, tempLength);
+        if(tempLength != items.length){
+            System.arraycopy(items, 0, a, ((a.length / 2) - 1) + tempLength, first);
+        }
+        items = a;
+        nextFirst = minusOne((a.length / 2) - 1);
+        first = plusOne(nextFirst);
+        nextLast = plusOne(nextFirst + size);
     }
 
-    public void addLast(T item){
-        //There's an resizing operation to be implement
-        resizeHelper(size, length);
-        lastPosition = size;
-        items[lastPosition] = item;
-        size++;
+    /**
+     * resize the underlying array down to the target capacity
+     * @param capacity
+     */
+    private void resizeDown(int capacity) {
+        T[] a = (T[]) new Object[capacity];
+        if (capacity < FINAL_LENGTH) {
+            return;
+        }
+        if (first + size > items.length) {
+            int left = (first + size) - items.length;
+            int tempLength = items.length - first;
+            System.arraycopy(items, first, a, (a.length / 2) - 1, tempLength);
+            System.arraycopy(items, nextLast - 1, a, ((a.length / 2) - 1) + tempLength, left);
+        } else {
+            System.arraycopy(items, first, a, (a.length / 2) - 1, size);
+        }
+        items = a;
+        nextFirst = minusOne((a.length / 2) - 1);
+        first = plusOne(nextFirst);
+        nextLast = plusOne(nextFirst + size);
+
     }
 
-    public boolean isEmpty(){
-        return size == 0;
+    /*
+    Checks whether the array is full and needs to be resized.
+     */
+    private boolean isFull() {
+        return size == items.length;
     }
 
-    public int size(){
+    /*
+    Adds an item of type T to the front of the deque.
+     */
+    public void addFirst(T item) {
+        if (isFull()) {
+            resize(size * 2);
+        }
+
+        first = nextFirst;
+        items[nextFirst] = item;
+        nextFirst = minusOne(nextFirst);
+        size += 1;
+    }
+
+    /*
+    Adds an item of type T to the back of the deque.
+     */
+    public void addLast(T item) {
+        if (isFull()) {
+            resize(size * 2);
+        }
+
+        items[nextLast] = item;
+        if (items[first] == null) {
+            first = nextLast;
+        }
+        nextLast = plusOne(nextLast);
+        size += 1;
+    }
+
+    private void checkResize() {
+        if ((double) size / items.length < 0.25) {
+            resizeDown(items.length / 2);
+        }
+    }
+
+    /*
+    Removes and returns the item at the back of the deque. If no such item exists, returns null.
+     */
+    public T removeLast() {
+        if (isEmpty()) {
+            return null;
+        }
+        nextLast = minusOne(nextLast);
+        T item = items[nextLast];
+        items[nextLast] = null;
+        size -= 1;
+        checkResize();
+        return item;
+    }
+
+    public T removeFirst() {
+        if (isEmpty()) {
+            return null;
+        }
+
+        T item = items[first];
+        items[first] = null;
+        first = plusOne(first);
+        nextFirst = plusOne(nextFirst);
+        size -= 1;
+        checkResize();
+        return item;
+    }
+
+    /*
+    Gets the item at the given index, where 0 is the front, 1 is the next item, and so forth.
+    If no such item exists, returns null.
+     */
+    public T get(int index) {
+        if (index >= size) {
+            return null;
+        } else if (first + index < items.length) {
+            return items[first + index];
+        } else {
+            return items[first + index - items.length];
+        }
+    }
+
+    /*
+    Returns the number of items in the deque.
+     */
+    public int size() {
         return size;
     }
 
-    public void printDeque(){
-        if(!isEmpty()){
-            for (int i = 0; i < size; i++) {
-                System.out.print(items[i] + " ");
-            }
+    /*
+    Returns x - 1 for any given integer x.
+    Used primarily for cleanliness.
+     */
+    private int minusOne(int x) {
+        if (x == 0) {
+            return items.length - 1;
         }
+        return x - 1;
     }
 
-    //something wrong within
-    public T removeFirst(){
-        resizeHelper(size, length);
-        T temp = get(0);
-        size--;
-        return temp;
-    }
-
-    public T removeLast(){
-        resizeHelper(size, length);
-        T temp = get(size - 1);
-        size--;
-        return temp;
-    }
-
-    public T get(int index){
-        if(index >= size){
-            return null;
+    private int plusOne(int x) {
+        if (x == items.length - 1) {
+            return 0;
         }
-        return items[index];
+        return x + 1;
     }
 
-    public void resize(int capacity){
-        T[] a = (T[]) new Object[capacity];
-        System.arraycopy(items, 0, a, 0, Math.min(length, capacity));
-        items = a;
-        length = items.length;
+    /*
+    Returns true if deque is empty, false otherwise.
+     */
+    public boolean isEmpty() {
+        return size == 0;
     }
 
-    public void resizeHelper(int size, int length){
-        usageRatio = size / length;
-        if(usageRatio == 1){
-            refactor = 4;
-            resize(refactor * length);
-        }else if(length >= 16 && usageRatio <= 0.25){
-            length = length / 2;
-            resize(length);
+    /*
+    Prints the items in the deque from first to last, separated by a space.
+     */
+    public void printDeque() {
+        for (int i = 0; i < size; i++) {
+            System.out.print(get(i) + " ");
         }
+        System.out.println();
     }
-
 
 }
