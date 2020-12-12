@@ -83,14 +83,15 @@ public class IntList {
     public static IntList dcatenate(IntList A, IntList B) {
         //TODO:  fill in method
         if(A == null) return B;
-        IntList head = A;
-        while(head != null){
-            if(head.rest == null){
-                head.rest = B;
-                break;
-            }
-            head = head.rest;
-        }
+//        IntList head = A;
+//        while(head != null){
+//            if(head.rest == null){
+//                head.rest = B;
+//                break;
+//            }
+//            head = head.rest;
+//        }
+        A.rest = dcatenate(A.rest, B);
         return A;
     }
 
@@ -100,32 +101,19 @@ public class IntList {
      */
     public static IntList catenate(IntList A, IntList B) {
         //TODO:  fill in method
-        IntList newHead = new IntList();
-        IntList tail = newHead;
-        IntList p = A;
-
-
-        while(p != null){
-            IntList node = new IntList(p.first, null);
-            p = p.rest;
-            tail.rest = node;
-            tail = tail.rest;
-        }
-        tail.rest = B;
-        return newHead.rest;
-//        IntList newList = new IntList(A.first, null);
-//        IntList temp1 = A;
-//        IntList temp2 = newList;
-//        while(temp1.rest != null)
-//        {
-//            temp1 = temp1.rest;
-//            temp2.rest = new IntList(temp1.first, null);
-//            temp2 = temp2.rest;
+//        IntList newHead = new IntList();
+//        IntList tail = newHead;
+//        IntList p = A;
+//        while(p != null){
+//            IntList node = new IntList(p.first, null);
+//            p = p.rest;
+//            tail.rest = node;
+//            tail = tail.rest;
 //        }
-//
-//        temp2.rest = B;
-//
-//        return newList;
+//        tail.rest = B;
+//        return newHead.rest;
+        if(A == null) return B;
+        return new IntList(A.first, catenate(A.rest, B));
     }
 
 
