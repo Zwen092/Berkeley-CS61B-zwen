@@ -1,5 +1,6 @@
 package byog.lab5;
 
+import byog.Core.Position;
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
@@ -24,12 +25,15 @@ public class BoringWorldDemo {
             }
         }
 
-        // fills in a block 14 tiles wide by 4 tiles tall
-        for (int x = 20; x < 35; x += 1) {
-            for (int y = 5; y < 10; y += 1) {
-                world[x][y] = Tileset.WALL;
-            }
-        }
+//        // fills in a block 14 tiles wide by 4 tiles tall
+//        for (int x = 20; x < 35; x += 1) {
+//            for (int y = 5; y < 10; y += 1) {
+//                world[x][y] = Tileset.WALL;
+//            }
+//        }
+
+        Position p = new Position(5,5);
+        //HexWorld.addHexagon(world, p, 3, Tileset.FLOWER);
 
         // draws the world to the screen
         ter.renderFrame(world);

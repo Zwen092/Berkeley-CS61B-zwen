@@ -92,6 +92,7 @@ public class MemoryGameSolution {
 
     public String solicitNCharsInput(int n) {
         String input = "";
+        //this is required to change "watch" to "type"
         drawFrame(input);
 
         while (input.length() < n) {

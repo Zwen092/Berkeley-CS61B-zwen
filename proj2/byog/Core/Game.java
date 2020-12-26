@@ -9,6 +9,8 @@ public class Game {
     public static final int WIDTH = 80;
     public static final int HEIGHT = 30;
 
+
+
     /**
      * Method used for playing a fresh game. The game should start from the main menu.
      */
@@ -31,8 +33,9 @@ public class Game {
         // TODO: Fill out this method to run the game using the input passed in,
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().
-
-        TETile[][] finalWorldFrame = null;
+        long seed = Long.parseLong(input.replaceAll("[^0-9]", ""));
+        WorldGenerator wg = new WorldGenerator(WIDTH, HEIGHT, 40, 5, seed);
+        TETile[][] finalWorldFrame = wg.generate();;
         return finalWorldFrame;
     }
 }
