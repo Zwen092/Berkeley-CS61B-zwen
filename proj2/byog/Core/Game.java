@@ -30,12 +30,12 @@ public class Game {
      * @return the 2D TETile[][] representing the state of the world
      */
     public TETile[][] playWithInputString(String input) {
-        // TODO: Fill out this method to run the game using the input passed in,
+
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().
         long seed = Long.parseLong(input.replaceAll("[^0-9]", ""));
         WorldGenerator wg = new WorldGenerator(WIDTH, HEIGHT, 40, 5, seed);
-        TETile[][] finalWorldFrame = wg.generate();;
+        TETile[][] finalWorldFrame = wg.generate();
         return finalWorldFrame;
     }
 }

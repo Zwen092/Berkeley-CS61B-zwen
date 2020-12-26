@@ -1,10 +1,10 @@
 package byog.Core;
 
 
-import byog.TileEngine.TERenderer;
+
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
-import org.junit.Test;
+
 
 import java.util.Random;
 import java.util.List;
@@ -410,29 +410,6 @@ class WorldGenerator {
 
         return world;
     }
-
-
-    public static void TestMakeRoom() {
-        Position p1 = new Position(2, 2);
-        Position p2 = new Position(4,4);
-    }
-
-    public static void TestRandomPositionNorth(int w, int h, Position entryPosition) {
-
-    }
-
-
-//    public static void main(String[] args) {
-//        int w = 80;
-//        int h = 50;
-//        TERenderer ter = new TERenderer();
-//        ter.initialize(w, h);
-//        WorldGenerator wg = new WorldGenerator(w, h, 40, 5);
-//        //wg.initialize();
-//        wg.generate();
-//        ter.renderFrame(wg.world);
-//    }
-
 }
 
 
