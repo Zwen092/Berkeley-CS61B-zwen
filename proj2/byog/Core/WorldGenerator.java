@@ -31,7 +31,16 @@ class WorldGenerator {
 
 
     /// Constructors
+    /// Nested class for easy access to x, y coordinates
+    private class Position {
+        int x;
+        int y;
 
+        Position(int xx, int yy) {
+            x = xx;
+            y = yy;
+        }
+    }
     /**
      * Returns WorldGenerator object without random seed specified
      *

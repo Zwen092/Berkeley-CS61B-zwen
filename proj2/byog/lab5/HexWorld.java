@@ -1,6 +1,5 @@
 package byog.lab5;
 
-import byog.Core.Position;
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
