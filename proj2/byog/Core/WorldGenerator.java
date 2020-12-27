@@ -41,6 +41,7 @@ class WorldGenerator {
             y = yy;
         }
     }
+
     /**
      * Returns WorldGenerator object without random seed specified
      *

@@ -31,10 +31,7 @@ public class BoringWorldDemo {
 //            }
 //        }
 
-        Position p = new Position(5,5);
-        //HexWorld.addHexagon(world, p, 3, Tileset.FLOWER);
 
-        // draws the world to the screen
         ter.renderFrame(world);
     }
 

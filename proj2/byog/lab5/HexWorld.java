@@ -16,6 +16,7 @@ public class HexWorld {
     private static final int HEIGHT = 30;
     private static int count = 0;
 
+
     /**
      * computes the width of row i for a size s hexagon
      * @param s the size of the hex
