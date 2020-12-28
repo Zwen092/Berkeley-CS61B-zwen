@@ -16,7 +16,6 @@ import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 
-import byog.lab5.Position;
 import edu.princeton.cs.introcs.StdDraw;
 
 public class Game {
@@ -74,10 +73,10 @@ public class Game {
         first = first.toLowerCase(); // normalize an input to lower case
         processInputString(first);
 
-//        if (input.length() > 1) {
-//            String rest = input.substring(1);
-//            processInput(rest); // recursive call until input ends
-//        }
+        if (input.length() > 1) {
+            String rest = input.substring(1);
+            processInput(rest); // recursive call until input ends
+        }
 
     }
 
@@ -165,8 +164,9 @@ public class Game {
         int randX = rand.nextInt(WIDTH);
         int randY = rand.nextInt(HEIGHT);
         while (world[randX][randY] != Tileset.WALL) {
-             randX = rand.nextInt(WIDTH);
-             randY = rand.nextInt(HEIGHT);
+
+            randX = rand.nextInt(WIDTH);
+            randY = rand.nextInt(HEIGHT);
         }
         world[randX][randY] = Tileset.FLOWER;
 
