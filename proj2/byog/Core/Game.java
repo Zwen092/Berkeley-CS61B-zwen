@@ -10,13 +10,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import java.awt.Font;
-import java.util.Random;
 
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 
 import edu.princeton.cs.introcs.StdDraw;
+
 
 public class Game {
 
@@ -34,14 +34,12 @@ public class Game {
     private static final int WELCOMEHEIGHT = 800;
 
 
-
     /// Instance members
     private boolean setupMode = true;     // flag to check whether setup has been done
     private boolean newGameMode = false; // flag to check whether a new game is gonna be generated
     private boolean quitMode = false; // flag to check whether a game is supposed to be quited
     private String seedString = ""; // store input random seed numbers as String
     private TERenderer ter = new TERenderer();
-    private Random rand = new Random();
     private TETile[][] world;
     private int playerX;
     private int playerY;
@@ -159,16 +157,6 @@ public class Game {
         world[ENTRYX][ENTRYY + 1] = Tileset.PLAYER;
         playerX = ENTRYX;
         playerY = ENTRYY + 1;
-
-//        set up a random exit point
-//        int randX = rand.nextInt(WIDTH);
-//        int randY = rand.nextInt(HEIGHT);
-//        while (world[randX][randY] != Tileset.WALL) {
-//
-//            randX = rand.nextInt(WIDTH);
-//            randY = rand.nextInt(HEIGHT);
-//        }
-//        world[randX][randY] = Tileset.FLOWER;
 
         // switch off setupMode
         switchSetupMode();
