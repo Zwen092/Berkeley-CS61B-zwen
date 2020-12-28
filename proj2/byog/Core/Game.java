@@ -1,15 +1,27 @@
 package byog.Core;
 
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+import java.awt.Font;
+import java.util.Random;
+
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
-import edu.princeton.cs.algs4.StdDraw;
 
-import java.awt.*;
-import java.io.*;
+import byog.lab5.Position;
+import edu.princeton.cs.introcs.StdDraw;
 
 public class Game {
 
+    /// Static members
     private static final int WIDTH = 80;
     private static final int HEIGHT = 50;
     private static final int ENTRYX = 40;
@@ -22,12 +34,15 @@ public class Game {
     private static final int WELCOMEWIDTH = 600;
     private static final int WELCOMEHEIGHT = 800;
 
-    ///instance members
+
+
+    /// Instance members
     private boolean setupMode = true;     // flag to check whether setup has been done
     private boolean newGameMode = false; // flag to check whether a new game is gonna be generated
     private boolean quitMode = false; // flag to check whether a game is supposed to be quited
     private String seedString = ""; // store input random seed numbers as String
     private TERenderer ter = new TERenderer();
+    private Random rand = new Random();
     private TETile[][] world;
     private int playerX;
     private int playerY;
@@ -35,7 +50,7 @@ public class Game {
     private void switchSetupMode() {
         setupMode = !setupMode;
     }
-    
+
     private void switchNewGameMode() {
         newGameMode = !newGameMode;
     }
@@ -44,12 +59,10 @@ public class Game {
         quitMode = !quitMode;
     }
 
-    /**
-     * this method process input string recursively together with the next function,
-     * if the input string is like "n###s", the function will process it correctly, otherwise it will
-     * quit the JVM by calling System.exit(0)
-     * @param input The input String
-     */
+
+    /// Private methods
+
+    /* Processes game recursively according to a given input Strings */
     private void processInput(String input) {
 
         if (input == null) {
@@ -61,13 +74,14 @@ public class Game {
         first = first.toLowerCase(); // normalize an input to lower case
         processInputString(first);
 
-        if (input.length() > 1) {
-            String rest = input.substring(1);
-            processInput(rest); // recursive call until input ends
-        }
+//        if (input.length() > 1) {
+//            String rest = input.substring(1);
+//            processInput(rest); // recursive call until input ends
+//        }
 
     }
 
+    /* Processes game according to a given single input String */
     private void processInputString(String first) {
 
         if (setupMode) {      // when the setup hasn't been done
@@ -86,7 +100,6 @@ public class Game {
                     break;
                 default:        // append next seed integer to seedString
                     try {
-                        //todo: I think if processed one by one, you should use int?
                         Long.parseLong(first);
                         seedString += first;
                     } catch (NumberFormatException e) { // exit program if input is invalid
@@ -118,6 +131,7 @@ public class Game {
                 default:
             }
         }
+
     }
 
     /* Generates a randomized world and put a player in it */
@@ -146,6 +160,15 @@ public class Game {
         world[ENTRYX][ENTRYY + 1] = Tileset.PLAYER;
         playerX = ENTRYX;
         playerY = ENTRYY + 1;
+
+        //set up a random exit point
+        int randX = rand.nextInt(WIDTH);
+        int randY = rand.nextInt(HEIGHT);
+        while (world[randX][randY] != Tileset.WALL) {
+             randX = rand.nextInt(WIDTH);
+             randY = rand.nextInt(HEIGHT);
+        }
+        world[randX][randY] = Tileset.FLOWER;
 
         // switch off setupMode
         switchSetupMode();
@@ -178,7 +201,6 @@ public class Game {
     }
 
     /* Helper method for load method: rewrite playerX, playerY */
-    //todo: didn't quiet get
     private void rewritePlayerLocation() {
         for (int w = 0; w < WIDTH; w += 1) {
             for (int h = 0; h < HEIGHT; h += 1) {
@@ -232,7 +254,7 @@ public class Game {
 
     /* Quits game saving a current game */
     private void saveAndQuit() {
-        // ignore if quit flag : hasn't been input in advance
+        // ignore if quit flag : hasn't been inputted in advance
         if (!quitMode) {
             return;
         }
@@ -252,7 +274,6 @@ public class Game {
             System.exit(1);
         }
     }
-
 
     /* Process keyboard inputs in setupMode */
     private void processWelcome() {
@@ -342,9 +363,12 @@ public class Game {
         StdDraw.textLeft(1, HEIGHT - 1, mouseTile.description());
         StdDraw.show();
     }
+
+    /// Public methods
+
     /**
-         * Method used for playing a fresh game. The game should start from the main menu.
-         */
+     * Method used for playing a fresh game. The game should start from the main menu.
+     */
     public void playWithKeyboard() {
         processWelcome();
     }
@@ -358,16 +382,20 @@ public class Game {
      * world. However, the behavior is slightly different. After playing with "n123sss:q", the game
      * should save, and thus if we then called playWithInputString with the string "l", we'd expect
      * to get the exact same world back again, since this corresponds to loading the saved game.
+     *
      * @param input the input string to feed to your program
      * @return the 2D TETile[][] representing the state of the world
      */
     public TETile[][] playWithInputString(String input) {
-
-        // and return a 2D tile representation of the world that would have been
-        // drawn if the same inputs had been given to playWithKeyboard().
         processInput(input);
         return world;
     }
 
+
+    /// Main method just to check this class works itself
+    public static void main(String[] args) {
+        Game game = new Game();
+        game.playWithKeyboard();
+    }
 
 }
