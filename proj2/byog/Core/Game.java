@@ -160,15 +160,15 @@ public class Game {
         playerX = ENTRYX;
         playerY = ENTRYY + 1;
 
-        //set up a random exit point
-        int randX = rand.nextInt(WIDTH);
-        int randY = rand.nextInt(HEIGHT);
-        while (world[randX][randY] != Tileset.WALL) {
-
-            randX = rand.nextInt(WIDTH);
-            randY = rand.nextInt(HEIGHT);
-        }
-        world[randX][randY] = Tileset.FLOWER;
+//        set up a random exit point
+//        int randX = rand.nextInt(WIDTH);
+//        int randY = rand.nextInt(HEIGHT);
+//        while (world[randX][randY] != Tileset.WALL) {
+//
+//            randX = rand.nextInt(WIDTH);
+//            randY = rand.nextInt(HEIGHT);
+//        }
+//        world[randX][randY] = Tileset.FLOWER;
 
         // switch off setupMode
         switchSetupMode();
