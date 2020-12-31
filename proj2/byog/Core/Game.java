@@ -17,6 +17,7 @@ import byog.TileEngine.Tileset;
 
 import edu.princeton.cs.introcs.StdDraw;
 
+
 public class Game {
 
     /// Static members
@@ -31,7 +32,6 @@ public class Game {
     private static final String PATH = "saved.txt";
     private static final int WELCOMEWIDTH = 600;
     private static final int WELCOMEHEIGHT = 800;
-
 
 
     /// Instance members
@@ -159,16 +159,6 @@ public class Game {
         world[ENTRYX][ENTRYY + 1] = Tileset.PLAYER;
         playerX = ENTRYX;
         playerY = ENTRYY + 1;
-
-//        set up a random exit point
-//        int randX = rand.nextInt(WIDTH);
-//        int randY = rand.nextInt(HEIGHT);
-//        while (world[randX][randY] != Tileset.WALL) {
-//
-//            randX = rand.nextInt(WIDTH);
-//            randY = rand.nextInt(HEIGHT);
-//        }
-//        world[randX][randY] = Tileset.FLOWER;
 
         // switch off setupMode
         switchSetupMode();
