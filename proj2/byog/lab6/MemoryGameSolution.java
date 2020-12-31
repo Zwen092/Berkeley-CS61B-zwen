@@ -13,6 +13,7 @@ public class MemoryGameSolution {
     private Random rand;
     private boolean gameOver;
     private boolean playerTurn;
+    private boolean gameStart;
     private static final char[] CHARACTERS = "abcdefghijklmnopqrstuvwxyz".toCharArray();
     private static final String[] ENCOURAGEMENT = {"You can do this!", "I believe in you!",
                                                    "You got this!", "You're a star!", "Go Bears!",
@@ -46,9 +47,14 @@ public class MemoryGameSolution {
     public void startGame() {
         gameOver = false;
         playerTurn = false;
+        gameStart = true;
         round = 1;
 
         while (!gameOver) {
+            if (gameStart) {
+                renderWelcomeBoard();
+            }
+            gameStart = false;
             playerTurn = false;
             drawFrame("Round " + round + "! Good luck!");
             StdDraw.pause(1500);
@@ -70,6 +76,7 @@ public class MemoryGameSolution {
             }
         }
     }
+
 
     public String generateRandomString(int n) {
         StringBuilder sb = new StringBuilder();
@@ -106,16 +113,28 @@ public class MemoryGameSolution {
         StdDraw.pause(500);
         return input;
     }
+    public void renderWelcomeBoard() {
+        String startGame = "Input N to start game:";
+        //drawFrame(startGame);
+        while (true) {
+            if (StdDraw.hasNextKeyTyped()) {
+                char c = StdDraw.nextKeyTyped();
+                if (c == 'n') break;
+            }
+            drawFrame(startGame);
+        }
+
+    }
 
     public void drawFrame(String s) {
         int midWidth = width / 2;
         int midHeight = height / 2;
 
-        StdDraw.clear();
+        //StdDraw.clear();
         StdDraw.clear(Color.black);
 
         // Draw the GUI
-        if (!gameOver) {
+        if (!gameOver && !gameStart) {
             Font smallFont = new Font("Monaco", Font.BOLD, 20);
             StdDraw.setFont(smallFont);
             StdDraw.textLeft(1, height - 1, "Round: " + round);

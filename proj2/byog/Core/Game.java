@@ -10,7 +10,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import java.awt.Font;
-import java.util.Random;
 
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
@@ -41,7 +40,6 @@ public class Game {
     private boolean quitMode = false; // flag to check whether a game is supposed to be quited
     private String seedString = ""; // store input random seed numbers as String
     private TERenderer ter = new TERenderer();
-    private Random rand = new Random();
     private TETile[][] world;
     private int playerX;
     private int playerY;
@@ -69,15 +67,17 @@ public class Game {
             System.exit(0);
         }
 
-        String first = Character.toString(input.charAt(0));
-        first = first.toLowerCase(); // normalize an input to lower case
-        processInputString(first);
-
-        if (input.length() > 1) {
-            String rest = input.substring(1);
-            processInput(rest); // recursive call until input ends
+        int l = input.length();
+        for (int i = 0; i < l; i++) {
+            String first = Character.toString(input.charAt(i));
+            first = first.toLowerCase(); // normalize an input to lower case
+            processInputString(first);
         }
 
+//        if (input.length() > 1) {
+//            String rest = input.substring(1);
+//            processInput(rest); // recursive call until input ends
+//        }
     }
 
     /* Processes game according to a given single input String */
@@ -111,13 +111,13 @@ public class Game {
             switch (first) {
                 // @Note: Add my keyboard preferences
                 case NORTH:
-                case "o":
+                //case "o":
                 case EAST:
-                case "l":
+                //case "l":
                 case SOUTH:
-                case "n":
+                //case "n":
                 case WEST:
-                case "k":
+                //case "k":
                     move(first);
                     break;
                 case ":":
@@ -217,7 +217,6 @@ public class Game {
     private void move(String input) {
         switch (input) {
             case NORTH:
-            case "o":
                 if (world[playerX][playerY + 1].equals(Tileset.FLOOR)) {
                     world[playerX][playerY + 1] = Tileset.PLAYER;
                     world[playerX][playerY] = Tileset.FLOOR;
@@ -225,7 +224,6 @@ public class Game {
                 }
                 return;
             case EAST:
-            case "l":
                 if (world[playerX + 1][playerY].equals(Tileset.FLOOR)) {
                     world[playerX + 1][playerY] = Tileset.PLAYER;
                     world[playerX][playerY] = Tileset.FLOOR;
@@ -233,7 +231,6 @@ public class Game {
                 }
                 return;
             case SOUTH:
-            case "n":
                 if (world[playerX][playerY - 1].equals(Tileset.FLOOR)) {
                     world[playerX][playerY - 1] = Tileset.PLAYER;
                     world[playerX][playerY] = Tileset.FLOOR;
@@ -241,7 +238,6 @@ public class Game {
                 }
                 return;
             case WEST:
-            case "k":
                 if (world[playerX - 1][playerY].equals(Tileset.FLOOR)) {
                     world[playerX - 1][playerY] = Tileset.PLAYER;
                     world[playerX][playerY] = Tileset.FLOOR;
@@ -282,14 +278,13 @@ public class Game {
         StdDraw.setCanvasSize(WELCOMEWIDTH, WELCOMEHEIGHT);
         StdDraw.clear(StdDraw.BLACK);
 
+
         while (true) {
             if (StdDraw.hasNextKeyTyped()) {
                 String typed = Character.toString(StdDraw.nextKeyTyped());
                 processInput(typed);
             }
-
             renderWelcomeBoard();
-
             if (!setupMode) {   // break after setup has been done and enter game mode
                 break;
             }
