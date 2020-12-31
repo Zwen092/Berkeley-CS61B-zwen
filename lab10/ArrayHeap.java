@@ -103,6 +103,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     private void swim(int index) {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
+        validateSinkSwimArg(index);
         int parentIndex = parentIndex(index);
         if (parentIndex < 1) {
             return;
@@ -118,27 +119,17 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      * Bubbles down the node currently at the given index.
      */
     private void sink(int index) {
-        int leftIndex = leftIndex(index);
-        boolean hasLeft = leftIndex <= size;
-        if (!hasLeft) { // Have sank down to the bottom
+        if (leftIndex(index) > size || rightIndex(index) > size) {
             return;
         }
-        int vsLeft = min(index, leftIndex);
-        int rightIndex = rightIndex(index);
-        boolean hasRight = rightIndex <= size;
-        if (vsLeft == leftIndex) {
-            if (hasRight && min(leftIndex, rightIndex) == rightIndex) {
-                swap(index, rightIndex);
-                sink(rightIndex);
-            } else {
-                swap(index, leftIndex);
-                sink(leftIndex);
-            }
-        }
-        if (hasRight && min(index, rightIndex) == rightIndex) {
-            // There is no case when `leftVsRight == leftIndex
-            swap(index, rightIndex);
-            sink(rightIndex);
+        validateSinkSwimArg(index);
+
+        double lP = getNode(leftIndex(index)).myPriority;
+        double rP = getNode(rightIndex(index)).myPriority;
+        if (getNode(index).myPriority > Math.min(lP, rP)) {
+            int swapIndex = lP <= rP ? leftIndex(index) : rightIndex(index);
+            swap(index, swapIndex);
+            sink(swapIndex);
         }
 
     }
